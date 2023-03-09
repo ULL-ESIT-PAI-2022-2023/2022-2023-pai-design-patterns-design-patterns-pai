@@ -4,7 +4,7 @@
  * Grado en Ingeniería Informática
  * Programación de Aplicaciones Interactivas
  *
- * @author Roberto Carrazana Pernía
+ * @author Roberto Carrazana Pernía, Diego Herrera Mendoza
  * @since Mar 09 2023
  * @desc Class Database
  */
