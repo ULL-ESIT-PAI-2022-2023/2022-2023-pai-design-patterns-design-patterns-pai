@@ -1,70 +1,132 @@
-abstract class Command {
-    abstract execute(currentValue: number): number;
-    abstract undo(currentValue: number): number;
-    constructor(protected value: number = 0) {}
-}
-class Calculator {
-    private current: number = 0;
-    private commands: Command[] = [];
+/** Class representing a stock. ( Receiver ) */
+class Stock {
+    /**
+     * @desc Create a stock.
+     * @param {string} name - The name of the stock.
+     * @param {number} quantity - The quantity of the stock.
+     * @return {Stock} The stock.
+     */
+    constructor(private name: string, private quantity: number) {}
 
-    getCurrent(): number {
-        return this.current;
+    /**
+     * @desc Get the name of the stock.
+     * @returns {string} The name of the stock.
+     */
+    buy() {
+        this.quantity++;
+        console.log(`Buying... Now you have ${this.quantity} ${this.name} stocks`);
     }
 
-    executeCommand(command: Command): void {
-        this.current = command.execute(this.current);
-        this.commands.push(command);
-        console.log(this.current);
-    }
-
-    undo(): void {
-        const command = this.commands.pop();
-        if (command) this.current = command.undo(this.current);
-        console.log(this.current);
-    }
-}
-
-class AddCommand extends Command {
-    constructor(value: number) {
-        super();
-        this.value = value;
-    }
-
-    execute(currentValue: number): number {
-        return currentValue + this.value;
-    }
-
-    undo(currentValue: number): number {
-        return currentValue - this.value;
+    /**
+     * @desc Get the name of the stock.
+     * @returns {string} The name of the stock.
+     */
+    sell() {
+        if (this.quantity <= 0) {
+            console.log(`You don't have any ${this.name} stocks`);
+            return;
+        }
+        this.quantity--;
+        console.log(`Selling... Now you have ${this.quantity} ${this.name} stocks`);
+        
     }
 }
 
-class SubtractCommand extends Command {
-    constructor(value: number) {
-        super();
-        this.value = value;
-    }
+/** Interface representing a command. ( Command ) */
+interface Command {
+    /**
+     * @desc Execute the command.
+     * @abstract
+     */
+    execute(): void;
+}
 
-    execute(currentValue: number): number {
-        return currentValue - this.value;
-    }
+/** Class representing a buy stock command. ( ConcreteCommand ) */
+class BuyStock implements Command {
 
-    undo(currentValue: number): number {
-        return currentValue + this.value;
+    /**
+     * @desc Create a buy stock command.
+     * @param {Stock} abcStock - The stock to buy.
+     * @return {BuyStock} The buy stock command.
+     */
+    constructor(private abcStock: Stock) {}
+
+    /**
+     * @desc Execute the command.
+     * @override
+     */
+    execute() {
+        this.abcStock.buy();
     }
 }
 
-let calculator = new Calculator();
-calculator.executeCommand(new AddCommand(5)); // 5
-calculator.executeCommand(new SubtractCommand(2)); // 3
-calculator.executeCommand(new AddCommand(10)); // 13
+/** Class representing a sell stock command. ( ConcreteCommand ) */
+class SellStock implements Command {
+    /**
+     * @desc Create a sell stock command.
+     * @param {Stock} abcStock - The stock to sell.
+     * @return {SellStock} The sell stock command.
+     */
+    constructor(private abcStock: Stock) {}
 
-calculator.undo(); // 3
-calculator.undo(); // 5
-calculator.undo(); // 0
+    /**
+     * @desc Execute the command.
+     * @override
+     */
+    execute() {
+        this.abcStock.sell();
+    }
+}
 
+/** Class representing a broker. ( Invoker ) */
+class Broker {
 
+    /** @desc The list of orders. */
+    private orderList: Command[] = [];
 
+    /**
+     * @desc Take an order.
+     * @param {Command} order - The order to take.
+     * @return {void}
+     */
+    takeOrder(order: Command): void {
+        this.orderList.push(order);
+    }
 
+    /**
+     * @desc Place the orders.
+     * @return {void}
+     */
+    placeOrders(): void {
+        for (const order of this.orderList) {
+            order.execute();
+        }
+        this.orderList = [];
+    }
+}
+
+// Usage ( Client )
+
+// We create some stocks
+const myStocks: Stock[] = [
+    new Stock('Microsoft', 10),
+    new Stock('Apple', 20),
+    new Stock('Google', 0),
+    new Stock('Facebook', 15),
+]
+
+// We create a broker
+const broker: Broker = new Broker();
+
+// The broker can take orders
+broker.takeOrder(new BuyStock(myStocks[0])); // Microsoft
+broker.takeOrder(new BuyStock(myStocks[1])); // Apple
+
+// We can also sell stocks
+broker.takeOrder(new SellStock(myStocks[2])); // Google
+broker.takeOrder(new SellStock(myStocks[3])); // Facebook
+
+// And finally, the broker can place the orders
+broker.placeOrders();
 
 

@@ -1,18 +1,36 @@
+/** Abstract class representing a shape. */
 abstract class Shape {
-    protected coordX: number;
-    protected coordY: number;
-    abstract clone(): Shape;
-    constructor(coordX: number, coordY: number) {
-        this.coordX = coordX;
-        this.coordY = coordY;
-    }
+    
+    /**
+     * @desc Create a shape.
+     * @param {number} coordX - The x coordinate of the shape.
+     * @param {number} coordY - The y coordinate of the shape.
+     * @return {Shape} The shape.
+     */
+    constructor(protected coordX: number, protected coordY: number) {}
+
+    /**
+     * @desc Get the x coordinate of the shape.
+     * @returns {number} The x coordinate of the shape.
+     */
     getCoordX(): number {
         return this.coordX;
     }
 
+    /**
+     * @desc Get the y coordinate of the shape.
+     * @returns {number} The y coordinate of the shape.
+     */
     getCoordY(): number {
         return this.coordY;
     }
+
+    /**
+     * @desc Clone the shape.
+     * @return {Shape} The shape.
+     * @abstract
+     */
+    abstract clone(): Shape;
 }
 
 /**  Class representing a rectangle. */
