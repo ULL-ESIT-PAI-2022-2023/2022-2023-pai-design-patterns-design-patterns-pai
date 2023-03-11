@@ -6,22 +6,24 @@
  *
  * @author Roberto Carrazana Pernía, Diego Herrera Mendoza
  * @since Mar 09 2023
- * @desc Class TicTacToe
+ * @desc Singleton pattern demo. TicTacToe example.
  */
 
 /** @desc TicTacToe class using Singleton */
 class TicTacToe {  
-  private static board: string[][];  
+  private static readonly EMPTY: string = ' ';
+  private static readonly PLAYER_ONE: string = 'X';
+  private static readonly PLAYER_TWO: string = 'O';
   private static currentPlayer: string;
-
+  private static board: string[][];
   private static ticTacToe: TicTacToe;
 
   /** @desc Create a tic-tac-toe game board */
   private constructor() {
-    TicTacToe.currentPlayer = 'X';
-    TicTacToe.board = [[' ', ' ', ' '],
-                       [' ', ' ', ' '],
-                       [' ', ' ', ' ']];
+    TicTacToe.currentPlayer = TicTacToe.PLAYER_ONE;
+    TicTacToe.board = [[TicTacToe.EMPTY, TicTacToe.EMPTY, TicTacToe.EMPTY],
+                       [TicTacToe.EMPTY, TicTacToe.EMPTY, TicTacToe.EMPTY],
+                       [TicTacToe.EMPTY, TicTacToe.EMPTY, TicTacToe.EMPTY]];
   } 
 
   /**
@@ -41,14 +43,14 @@ class TicTacToe {
    * @param column - column in which play
    */
   public play(row: number, column: number): void {
-    if (TicTacToe.board[row][column] !== ' ')
+    if (TicTacToe.board[row][column] !== TicTacToe.EMPTY)
       console.log('Slot already taken. Try again.');
     else {
       TicTacToe.board[row][column] = TicTacToe.currentPlayer;
-      if (TicTacToe.currentPlayer === 'O')
-        TicTacToe.currentPlayer = 'X';
+      if (TicTacToe.currentPlayer === TicTacToe.PLAYER_ONE)
+        TicTacToe.currentPlayer = TicTacToe.PLAYER_TWO;
       else
-        TicTacToe.currentPlayer = 'O';
+        TicTacToe.currentPlayer = TicTacToe.PLAYER_ONE;
     }    
     console.log(TicTacToe.board[0]);
     console.log(TicTacToe.board[1]);
@@ -60,10 +62,10 @@ function main(): void {
   let playerOne: TicTacToe = TicTacToe.getInstance();
   let playerTwo: TicTacToe = TicTacToe.getInstance();  
 
-  playerOne.play(0,0);
-  playerTwo.play(0,1);
-  playerOne.play(2,0);
-  playerTwo.play(0,2);
-  playerOne.play(1,1);
+  playerOne.play(0, 0);
+  playerTwo.play(0, 1);
+  playerOne.play(2, 0);
+  playerTwo.play(0, 2);
+  playerOne.play(1, 1);
 }
 main();

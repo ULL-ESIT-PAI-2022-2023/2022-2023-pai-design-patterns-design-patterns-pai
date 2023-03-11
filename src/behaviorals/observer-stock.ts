@@ -6,7 +6,7 @@
  *
  * @author Roberto Carrazana Pernía, Diego Herrera Mendoza      
  * @since Mar 09 2023
- * @desc Class Database
+ * @desc Observer pattern demo. Stock example.
  */
 
 /** @desc Stock class */
@@ -125,7 +125,7 @@ class ConcreteInvestor extends Investor  {
 function main(): void {
   // Create IBM stock and suscribe investors
   let ibm : IBM = new IBM("IBM", 120.00);
-  ibm.suscribe(new ConcreteInvestor("Sorros"));
+  ibm.suscribe(new ConcreteInvestor("Soros"));
   ibm.suscribe(new ConcreteInvestor("Berkshire"));
   
   // Fluctuating prices will notify investors

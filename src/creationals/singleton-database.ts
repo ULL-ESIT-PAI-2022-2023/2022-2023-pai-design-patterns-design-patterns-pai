@@ -6,20 +6,17 @@
  *
  * @author Roberto Carrazana Pernía, Diego Herrera Mendoza
  * @since Mar 09 2023
- * @desc Class Database
+ * @desc Singleton pattern demo. Database example.
  */
 
 /** @desc Database class using Singleton */
-class Database { 
-
-  private storedInformation: Map<string, number[]>;  
-
+class Database {
+  private storedInformation: Map<string, number[]>;
   private static database: Database;
 
   /** @desc Create a database */
   private constructor() {
     this.storedInformation = new Map<string, number[]>();
-
     this.storedInformation.set('TeamA', [1, 2, 3]);
     this.storedInformation.set('TeamB', [2, 0, 5]);
     this.storedInformation.set('TeamC', [7, 2, 8]);
@@ -44,8 +41,8 @@ class Database {
    */
   public query(team: string, season: number): number {
     return(this.storedInformation[team][season]);
-  } }
-
+  }
+}
 
 function main(): void {
   let databaseAccesor: Database = Database.getInstance();

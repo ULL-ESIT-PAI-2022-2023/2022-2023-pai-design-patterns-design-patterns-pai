@@ -9,8 +9,6 @@
  * @desc Adapter pattern demo. Media Player.
  */
 
-'use strict';
-
 /** @desc MediaPlayer interface */
 interface MediaPlayer {
   /**
