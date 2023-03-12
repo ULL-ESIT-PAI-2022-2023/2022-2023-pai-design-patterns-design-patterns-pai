@@ -40,7 +40,10 @@ class Database {
    * @returns goals scored by the team in tthe given season
    */
   public query(team: string, season: number): number {
-    return(this.storedInformation[team][season]);
+    let goals: number[] | undefined = this.storedInformation.get(team);
+    if ((goals === undefined) || (season > goals.length - 1))   
+      return(0)
+    return(goals[season]);
   }
 }
 

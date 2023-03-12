@@ -25,7 +25,7 @@ class Stock {
 
   /**
    * @desc Suscribe a new investor
-   * @param symbol - new investor to suscribe
+   * @param investor - new investor to suscribe
    */
   public suscribe(investor: Investor): void {
     this.investors.push(investor);
@@ -33,7 +33,7 @@ class Stock {
 
   /**
    * @desc Unsuscribe an existing investor
-   * @param symbol - investor to unsuscribe
+   * @param investor - investor to unsuscribe
    */
   public unsuscribe(investor: Investor): void {
     this.investors.splice(this.investors.indexOf(investor), 0);
@@ -42,7 +42,7 @@ class Stock {
   /** @desc Notifies all the current suscribed investors */
   public notify(): void {
     for (const INVESTOR of this.investors) {
-      INVESTOR.update(this);
+      INVESTOR.receiveNotification(this);
     }
   }
 
@@ -96,7 +96,7 @@ class Investor {
    * @desc Update the stock the investor is suscribed to.
    * @param stock - updated stock
    */
-  public update(stock: Stock): void {}
+  public receiveNotification(stock: Stock): void {}
 }
 
 /** @desc ConcreteInvestor class. Extends from Investor. */ 
@@ -116,7 +116,7 @@ class ConcreteInvestor extends Investor  {
    * @desc Update the stock the investor is suscribed to.
    * @param stock - updated stock
    */
-  public update(stock: Stock): void {
+  public receiveNotification(stock: Stock): void {
     this.stock = stock;    
     console.log("Notified " + this.name + " of " + this.stock.getSymbol() + "'s change to " + this.stock.getPrice());
   }

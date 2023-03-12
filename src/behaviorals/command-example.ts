@@ -25,7 +25,7 @@ class Stock {
    * @desc Get the name of the stock.
    * @returns The name of the stock.
    */
-  buy() {
+  buy(): void {
     this.quantity++;
     console.log(`Buying... Now you have ${this.quantity} ${this.name} stocks`);
   }
@@ -34,7 +34,7 @@ class Stock {
    * @desc Get the name of the stock.
    * @returns The name of the stock.
    */
-  sell() {
+  sell(): void {
     if (this.quantity <= 0) {
       console.log(`You don't have any ${this.name} stocks`);
       return;
@@ -66,7 +66,7 @@ class BuyStock implements Command {
    * @desc Execute the command.
    * @override
    */
-  execute() {
+  execute(): void {
     this.abcStock.buy();
   }
 }
@@ -84,12 +84,12 @@ class SellStock implements Command {
    * @desc Execute the command.
    * @override
    */
-  execute() {
+  execute(): void {
     this.abcStock.sell();
   }
 }
 
-/** Class representing a broker. ( Invoker ) */
+/** @desc Class representing a broker. ( Invoker ) */
 class Broker {
   /** @desc The list of orders. */
   private orderList: Command[] = [];
@@ -103,10 +103,7 @@ class Broker {
     this.orderList.push(order);
   }
 
-  /**
-   * @desc Place the orders.
-   * @return {void}
-   */
+  /** @desc Place the orders. */
   placeOrders(): void {
     for (const order of this.orderList) {
       order.execute();
